@@ -7,7 +7,7 @@ class Character:
         self.coins = coins
 
     def __str__(self):
-        return f'Name: {self.name}\nLevel: {self.level}\nCoins:{self.coins}\n'
+        return f'Name: {self.name}\nLevel: {self.level}\nCoins: {self.coins}\n'
 
 class Enemy(Character):
     def __init__(self, name, level, coins):
@@ -31,19 +31,21 @@ def fight(self, other):
         print(f'{self.name} attacks {other.name.capitalize()} and loses...')
 
 def battle_area():
-    for enemy in enemy_list:
-        print(str(enemy))
-    battle_choice = int(input('Choose your opponent(1-5): '))
-    if battle_choice == 1:
-        fight(hero, enemy_list[0])
-    elif battle_choice == 2:
-        fight(hero, enemy_list[1])
-    elif battle_choice == 3:
-        fight(hero, enemy_list[2])
-    elif battle_choice == 4:
-        fight(hero, enemy_list[3])
-    else:
-        fight(hero, enemy_list[4])
+    while enemy_list != []:
+        for enemy in enemy_list:
+            print(str(enemy))
+        battle_choice = int(input(f'Choose your opponent(1-{len(enemy_list)}): '))
+        if battle_choice == 1:
+            fight(hero, enemy_list[0])
+        elif battle_choice == 2:
+            fight(hero, enemy_list[1])
+        elif battle_choice == 3:
+            fight(hero, enemy_list[2])
+        elif battle_choice == 4:
+            fight(hero, enemy_list[3])
+        else:
+            fight(hero, enemy_list[4])
+    print('You beat the enemies')
 
 def game():
     print(f'Welcome to the game, {hero.name}!')
