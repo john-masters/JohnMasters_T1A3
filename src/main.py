@@ -9,56 +9,41 @@ class Character:
     def __str__(self):
         return f'Name: {self.name}\nLevel: {self.level}\nCoins:{self.coins}\n'
 
-def fight(self, other):
-    if self.level >= other.level:
-        self.level += other.level
-        self.coins += other.coins
-        enemy_list.remove(other.name)
-        print(f'{self.name} defeated {other.name.capitalize()}! You\'re now level {self.level} and you receive {other.coins} coins for winning.')
-    else:
-        print(f'{self.name} attacks {other.name.capitalize()} and loses...')
-
 class Enemy(Character):
     def __init__(self, name, level, coins):
         super().__init__(name, level, coins)
 
-    def __str__(self):
-        return f'Name: {self.name.capitalize()}\nLevel: {self.level}\nCoins:{self.coins}\n'
+hero = Character(input("Please enter your name: ").capitalize())
+
+enemy_list = []
+
+for x in range(5):
+    enemyx = Enemy(f'Enemy{x+1}', (random.randint((hero.level - 2), (hero.level + 2))), random.randint(5, 10))
+    enemy_list.append(enemyx)
+
+def fight(self, other):
+    if self.level >= other.level:
+        self.level += other.level
+        self.coins += other.coins
+        enemy_list.remove(other)
+        print(f'{self.name} defeated {other.name.capitalize()}! You\'re now level {self.level} and you receive {other.coins} coins for winning.')
+    else:
+        print(f'{self.name} attacks {other.name.capitalize()} and loses...')
 
 def battle_area():
     for enemy in enemy_list:
         print(str(enemy))
-    battle_choice = input('Choose your opponent(1-5): ')
+    battle_choice = int(input('Choose your opponent(1-5): '))
     if battle_choice == 1:
-        fight(hero, enemy1)
+        fight(hero, enemy_list[0])
     elif battle_choice == 2:
-        fight(hero, enemy2)
+        fight(hero, enemy_list[1])
     elif battle_choice == 3:
-        fight(hero, enemy3)
+        fight(hero, enemy_list[2])
     elif battle_choice == 4:
-        fight(hero, enemy4)
+        fight(hero, enemy_list[3])
     else:
-        fight(hero, enemy5)
-
-hero = Character(input("Please enter your name: "))
-
-enemy1 = Enemy(
-    "enemy1",(random.randint((hero.level - 2), (hero.level + 2))), (random.randint(5, 11))
-)
-enemy2 = Enemy(
-    "enemy2",(random.randint((hero.level - 2), (hero.level + 2))), (random.randint(5, 11))
-    )
-enemy3 = Enemy(
-    "enemy3",(random.randint((hero.level - 2), (hero.level + 2))), (random.randint(5, 11))
-    )
-enemy4 = Enemy(
-    "enemy4",(random.randint((hero.level - 2), (hero.level + 2))), (random.randint(5, 11))
-    )
-enemy5 = Enemy(
-    "enemy5",(random.randint((hero.level - 2), (hero.level + 2))), (random.randint(5, 11))
-    )
-
-enemy_list = [enemy1, enemy2, enemy3, enemy4, enemy5]
+        fight(hero, enemy_list[4])
 
 def game():
     print(f'Welcome to the game, {hero.name}!')
