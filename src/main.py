@@ -17,9 +17,10 @@ hero = Character(input("Please enter your name: ").capitalize())
 
 enemy_list = []
 
-for x in range(5):
-    enemyx = Enemy(f'Enemy{x+1}', (random.randint((hero.level - 2), (hero.level + 2))), random.randint(5, 10))
-    enemy_list.append(enemyx)
+def enemy_gen():
+    for x in range(5):
+        enemyx = Enemy(f'Enemy{x+1}', (random.randint((hero.level - 2), (hero.level + 2))), random.randint(5, 10))
+        enemy_list.append(enemyx)
 
 def fight(self, other):
     if self.level >= other.level:
@@ -29,6 +30,10 @@ def fight(self, other):
         print(f'{self.name} defeated {other.name.capitalize()}! You\'re now level {self.level} and you receive {other.coins} coins for winning.')
     else:
         print(f'{self.name} attacks {other.name.capitalize()} and loses...')
+        self.level = 5
+        self.coins = 0
+        enemy_list.clear()
+        enemy_gen()
 
 def battle_area():
     while enemy_list != []:
@@ -46,8 +51,11 @@ def battle_area():
         else:
             fight(hero, enemy_list[4])
     print('You beat the enemies')
+    enemy_gen()
+    print('New enemies generated')
 
 def game():
+    enemy_gen()
     print(f'Welcome to the game, {hero.name}!')
     won = False
     while won is False:
