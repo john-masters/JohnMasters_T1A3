@@ -19,7 +19,8 @@ enemy_list = []
 
 def enemy_gen():
     for x in range(5):
-        enemyx = Enemy(f'Enemy{x+1}', (random.randint((hero.level - 2), (hero.level + 2))), random.randint(5, 10))
+        name_list = ['red', 'green', 'yellow', 'blue', 'purple']
+        enemyx = Enemy(f'{name_list[x].capitalize()} enemy', (random.randint((hero.level - 2), (hero.level + 2))), random.randint(5, 10))
         enemy_list.append(enemyx)
 
 def fight(self, other):
@@ -35,10 +36,24 @@ def fight(self, other):
         enemy_list.clear()
         enemy_gen()
 
+def boss_battle():
+    print('''
+     ,     ,
+    (\____/)
+     (_oo_)
+       (O)
+     __||__    \)
+  []/______\[] /
+  / \______/ \/
+ /    /__\\
+(\   /____\\
+    ''')
+    input = 
+
 def battle_area():
     while enemy_list != []:
-        for enemy in enemy_list:
-            print(str(enemy))
+        for index, enemy in enumerate(enemy_list):
+            print(f'\n{index + 1}.\n {str(enemy)}')
         battle_choice = int(input(f'Choose your opponent(1-{len(enemy_list)}): '))
         if battle_choice == 1:
             fight(hero, enemy_list[0])
@@ -57,6 +72,7 @@ def battle_area():
 def game():
     enemy_gen()
     print(f'Welcome to the game, {hero.name}!')
+    # boss_battle()
     won = False
     while won is False:
         action = input('Please enter one of the following commands (battle, shop, stats or scores): ')
