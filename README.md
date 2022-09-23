@@ -1,5 +1,6 @@
 # R3 - Sources
 - [Trello board](https://trello.com/invite/b/0atoXcqa/6fe6d7da1695821e87bcea4adfca18d1/t1a3-fight-game)
+- [Boss emoji](https://www.asciiart.eu/electronics/robots)
 
 # R4 - Link to source control repository
 - [Github](https://github.com/john-masters/JohnMasters_T1A3)

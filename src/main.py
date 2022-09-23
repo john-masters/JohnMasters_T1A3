@@ -13,6 +13,10 @@ class Enemy(Character):
     def __init__(self, name, level, coins):
         super().__init__(name, level, coins)
 
+class Boss(Character):
+    def __init__(self, name, level, coins=50):
+        super().__init__(name, level, coins)
+
 hero = Character(input("Please enter your name: ").capitalize())
 
 enemy_list = []
@@ -22,6 +26,16 @@ def enemy_gen():
         name_list = ['red', 'green', 'yellow', 'blue', 'purple']
         enemyx = Enemy(f'{name_list[x].capitalize()} enemy', (random.randint((hero.level - 2), (hero.level + 2))), random.randint(5, 10))
         enemy_list.append(enemyx)
+
+def boss_gen(x):
+    if x == 1:
+        level = 'bronze'
+    elif x == 2:
+        level = 'silver'
+    elif x == 3:
+        level = 'gold'
+    boss = Boss((level + ' devil').title(), hero.level * 5)
+    return boss
 
 def fight(self, other):
     if self.level >= other.level:
@@ -36,7 +50,8 @@ def fight(self, other):
         enemy_list.clear()
         enemy_gen()
 
-def boss_battle():
+# TODO: add boss fightiing logic (player level must be higher than average)
+def boss_battle(self, other):
     print('''
      ,     ,
     (\____/)
@@ -48,7 +63,8 @@ def boss_battle():
  /    /__\\
 (\   /____\\
     ''')
-    input = 
+    print(str(other))
+    fight(self, other)
 
 def battle_area():
     while enemy_list != []:
@@ -67,10 +83,14 @@ def battle_area():
             fight(hero, enemy_list[4])
     print('You beat the enemies')
     enemy_gen()
+    boss_gen(1)
+    boss_battle(hero, Boss.boss)
     print('New enemies generated')
 
+# TODO: Add a for loop that will move the boss attr forward by 1 each time, and only loop 3 times and then you win
 def game():
     enemy_gen()
+    boss_gen(1)
     print(f'Welcome to the game, {hero.name}!')
     # boss_battle()
     won = False
