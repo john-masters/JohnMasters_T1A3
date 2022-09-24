@@ -1,4 +1,6 @@
 import random
+import sys
+import time
 
 class Character:
     def __init__(self, name, level=5):
@@ -59,8 +61,7 @@ def fight(self, other):
         print(f'{self.name} defeated {other.name.capitalize()}! You\'re now level {self.level}.')
     else:
         print(f'{self.name} attacks {other.name.capitalize()} and loses...')
-        self.level = 5
-        enemy_list.clear()
+        sys.exit("Thank you for playing. Better luck next time!")
 
 def boss_fight(self, other):
     if self.level >= other.level:
@@ -70,8 +71,7 @@ def boss_fight(self, other):
         enemy_list.clear()
     else:
         print(f'{self.name} attacks {other.name.capitalize()} and loses...')
-        self.level = 5
-        enemy_list.clear()
+        sys.exit("Thank you for playing. Better luck next time!")
 
 def battle_area():
     while enemy_list != []:
@@ -83,19 +83,24 @@ def battle_area():
     boss_fight(hero, boss)
 
 def game():
+    time1 = time.time()
+    print(f'Welcome to the game, {hero.name}!')
     for i in range(3):
         boss_gen(i + 1)
         enemy_gen()
-        print(f'Welcome to the game, {hero.name}!')
-        action = input('Please enter one of the following commands (battle, stats or scores): ')
-        if action == 'battle':
-            battle_area()
-        elif action == 'stats':
-            print(hero)
-        elif action == 'scores':
-            pass
-        else:
-            action = 'Please enter one of the following (battle, stats or scores): '
-    print('You won!')
+        while enemy_list != []:
+            action = input('Please enter one of the following commands (battle, stats or scores): ')
+            if action == 'battle':
+                battle_area()
+            elif action == 'stats':
+                print(hero)
+            elif action == 'scores':
+                pass
+            else:
+                action = 'Please enter one of the following (battle, stats or scores): '
+    time_result = round((time.time()) - time1)
+    with open('../docs/scores.txt', 'a') as file:
+        file.write(f'{hero.name}:{time_result}\n')
+    print(f'Congratulations, {hero.name}! You won in {time_result} seconds!')
 
 game()
