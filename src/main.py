@@ -17,42 +17,8 @@ class Boss(Character):
     def __init__(self, name, level, coins=50):
         super().__init__(name, level, coins)
 
-hero = Character(input("Please enter your name: ").capitalize())
-
-enemy_list = []
-
-def enemy_gen():
-    for x in range(5):
-        name_list = ['red', 'green', 'yellow', 'blue', 'purple']
-        enemyx = Enemy(f'{name_list[x].capitalize()} enemy', (random.randint((hero.level - 2), (hero.level + 2))), random.randint(5, 10))
-        enemy_list.append(enemyx)
-
-def boss_gen(x):
-    if x == 1:
-        level = 'bronze'
-    elif x == 2:
-        level = 'silver'
-    elif x == 3:
-        level = 'gold'
-    boss = Boss((level + ' devil').title(), hero.level * 5)
-    return boss
-
-def fight(self, other):
-    if self.level >= other.level:
-        self.level += other.level
-        self.coins += other.coins
-        enemy_list.remove(other)
-        print(f'{self.name} defeated {other.name.capitalize()}! You\'re now level {self.level} and you receive {other.coins} coins for winning.')
-    else:
-        print(f'{self.name} attacks {other.name.capitalize()} and loses...')
-        self.level = 5
-        self.coins = 0
-        enemy_list.clear()
-        enemy_gen()
-
-# TODO: add boss fightiing logic (player level must be higher than average)
-def boss_battle(self, other):
-    print('''
+    def __str__(self):
+        return f'''
      ,     ,
     (\____/)
      (_oo_)
@@ -62,9 +28,44 @@ def boss_battle(self, other):
   / \______/ \/
  /    /__\\
 (\   /____\\
-    ''')
-    print(str(other))
-    fight(self, other)
+\nName: {self.name}\nLevel: {self.level}\nCoins: {self.coins}\n
+        '''
+
+boss = None
+
+def boss_gen(x):
+    global boss
+    if x == 1:
+        level = 'bronze'
+    elif x == 2:
+        level = 'silver'
+    elif x == 3:
+        level = 'gold'
+    boss = Boss((level + ' devil').title(), hero.level * 6)
+
+hero = Character(input("Please enter your name: ").capitalize())
+
+enemy_list = []
+
+def enemy_gen():
+    for x in range(5):
+        name_list = ['red', 'green', 'yellow', 'blue', 'purple']
+        enemyx = Enemy(f'{name_list[x].capitalize()} enemy', (random.randint((hero.level - 4), (hero.level + 4))), random.randint(5, 11))
+        enemy_list.append(enemyx)
+
+def fight(self, other):
+    if self.level >= other.level:
+        self.level += other.level
+        self.coins += other.coins
+        if other in enemy_list:
+            enemy_list.remove(other)
+        print(f'{self.name} defeated {other.name.capitalize()}! You\'re now level {self.level} and you receive {other.coins} coins for winning.')
+    else:
+        print(f'{self.name} attacks {other.name.capitalize()} and loses...')
+        self.level = 5
+        self.coins = 0
+        enemy_list.clear()
+        enemy_gen()
 
 def battle_area():
     while enemy_list != []:
@@ -81,30 +82,29 @@ def battle_area():
             fight(hero, enemy_list[3])
         else:
             fight(hero, enemy_list[4])
-    print('You beat the enemies')
-    enemy_gen()
-    boss_gen(1)
-    boss_battle(hero, Boss.boss)
-    print('New enemies generated')
+    print(f'You beat the enemies, and the boss appears...\n{str(boss)}')
+    fight(hero, boss)
 
 # TODO: Add a for loop that will move the boss attr forward by 1 each time, and only loop 3 times and then you win
 def game():
-    enemy_gen()
-    boss_gen(1)
-    print(f'Welcome to the game, {hero.name}!')
-    # boss_battle()
-    won = False
-    while won is False:
-        action = input('Please enter one of the following commands (battle, shop, stats or scores): ')
-        if action == 'battle':
-            battle_area()
-        elif action == 'shop':
-            pass
-        elif action == 'stats':
-            print(hero)
-        elif action == 'scores':
-            pass
-        else:
-            action = 'Please enter one of the following (battle, shop, stats or scores): '
+    loop_num = 0
+    for i in range(3):
+        enemy_gen()
+        boss_gen(loop_num + 1)
+        print(f'Welcome to the game, {hero.name}!')
+        won = False
+        while won is False:
+            action = input('Please enter one of the following commands (battle, shop, stats or scores): ')
+            if action == 'battle':
+                battle_area()
+            elif action == 'shop':
+                pass
+            elif action == 'stats':
+                print(hero)
+            elif action == 'scores':
+                pass
+            else:
+                action = 'Please enter one of the following (battle, shop, stats or scores): '
+        loop_num += 1
 
 game()
