@@ -83,28 +83,37 @@ def battle_area():
     boss_fight(hero, boss)
 
 def game():
-    time1 = time.time()
-    print(f'Welcome to the game, {hero.name}!')
-    input('Hit enter to continue')
-    for i in range(3):
-        boss_gen(i + 1)
-        enemy_gen()
-        while enemy_list != []:
-            action = input('Please enter one of the following commands (battle, stats or scores): ')
-            if action == 'battle':
-                battle_area()
-            elif action == 'stats':
-                print(hero)
-            elif action == 'scores':
-                with open('docs/scores.txt', 'r') as file:
-                    print(file.read())
-            else:
-                action = 'Please enter one of the following (battle, stats or scores): '
-    time_result = round((time.time()) - time1)
-    with open('docs/scores.txt', 'a') as file:
-        file.write(f'{hero.name}: {time_result}\n')
-    print(f'Congratulations, {hero.name}! You won in {time_result} seconds!')
+    # time1 = time.time()
+    # print(f'Welcome to the game, {hero.name}!')
+    # input('Hit enter to continue')
+    # for i in range(3):
+    #     boss_gen(i + 1)
+    #     enemy_gen()
+    #     while enemy_list != []:
+    #         action = input('Please enter one of the following commands (battle, stats or scores): ')
+    #         if action == 'battle':
+    #             battle_area()
+    #         elif action == 'stats':
+    #             print(hero)
+    #         elif action == 'scores':
+    #             with open('docs/scores.txt', 'r') as file:
+    #                 print(file.read())
+    #         else:
+    #             action = 'Please enter one of the following (battle, stats or scores): '
+    # time_result = round((time.time()) - time1)
+    # with open('docs/scores.txt', 'a') as file:
+    #     file.write(f'{hero.name}: {time_result}\n')
+    # print(f'Congratulations, {hero.name}! You won in {time_result} seconds!')
     with open('docs/scores.txt', 'r') as file:
-        print(file.read())
+        data = file.read()
+        print(data)
+        data_list = (data.split('\n'))
+        data_list.pop()
+        new_list = []
+        for data in data_list:
+            new_list.append(data.split(': '))
+        sorted_list = sorted(new_list, key = lambda x: x[1])
+        print(sorted_list)
+
 
 game()
