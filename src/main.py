@@ -85,6 +85,7 @@ def battle_area():
 def game():
     time1 = time.time()
     print(f'Welcome to the game, {hero.name}!')
+    input('Hit enter to continue')
     for i in range(3):
         boss_gen(i + 1)
         enemy_gen()
@@ -95,12 +96,15 @@ def game():
             elif action == 'stats':
                 print(hero)
             elif action == 'scores':
-                pass
+                with open('docs/scores.txt', 'r') as file:
+                    print(file.read())
             else:
                 action = 'Please enter one of the following (battle, stats or scores): '
     time_result = round((time.time()) - time1)
-    with open('../docs/scores.txt', 'a') as file:
-        file.write(f'{hero.name}:{time_result}\n')
+    with open('docs/scores.txt', 'a') as file:
+        file.write(f'{hero.name}: {time_result}\n')
     print(f'Congratulations, {hero.name}! You won in {time_result} seconds!')
+    with open('docs/scores.txt', 'r') as file:
+        print(file.read())
 
 game()
