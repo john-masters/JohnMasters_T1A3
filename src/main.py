@@ -47,6 +47,10 @@ def boss_gen(x):
         level = 'gold'
     boss = Boss((level + ' devil').title(), hero.level * 6)
 
+def terminal_clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+terminal_clear()
 hero = Character(input("Please enter your name: ").capitalize())
 
 enemy_list = []
@@ -90,10 +94,13 @@ def battle_area():
     while enemy_list != []:
         for index, enemy in enumerate(enemy_list):
             print(f'{index + 1}.\n {str(enemy)}\n')
+        print('--------------------')
         battle_choice = int(input(f'Choose your opponent(1-{len(enemy_list)}): '))
-        os.system('cls' if os.name == 'nt' else 'clear')
+        terminal_clear()
         fight(hero, enemy_list[battle_choice - 1])
     print(f'You beat the enemies, and a {boss.name} appears...\n{str(boss)}')
+    input("There's nowhere to run. Hit enter to fight: ")
+    terminal_clear()
     boss_fight(hero, boss)
 
 # The main game function. The player chooses between battling, checking their stats, or checking the high scores
@@ -106,27 +113,25 @@ def game():
         while enemy_list != []:
             action = input('Please enter one of the following commands (battle, stats or scores): ')
             if action == 'battle':
-                os.system('cls' if os.name == 'nt' else 'clear')
+                terminal_clear()
                 battle_area()
             elif action == 'stats':
-                os.system('cls' if os.name == 'nt' else 'clear')
+                terminal_clear()
                 print('--- YOUR STATS ---')
                 print(hero)
+                print('------------------')
             elif action == 'scores':
-                os.system('cls' if os.name == 'nt' else 'clear')
+                terminal_clear()
                 with open ('../docs/scores.csv') as file:
                     reader = csv.reader(file)
                     print('--- TOP 5 SCORES ---')
                     reader.__next__()
-                    counter = 0
-                    for row in reader:
-                        if counter != 5:
-                            print(f'{row[0]} beat the game in {row[1]} seconds')
-                            counter += 1
-                        else:
-                            break
+                    for key, row in enumerate(reader):
+                        if key != 5:
+                            print(f'{key + 1}. {row[0]} beat the game in {row[1]} seconds')
+                    print('--------------------')
             else:
-                os.system('cls' if os.name == 'nt' else 'clear')
+                terminal_clear()
                 action = 'Please enter one of the following (battle, stats or scores): '
     time_result = round((time.time()) - time1)
     # Writes score to score list CSV
