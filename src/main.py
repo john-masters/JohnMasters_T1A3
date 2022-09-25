@@ -2,6 +2,7 @@ import random
 import sys
 import time
 import csv
+import os
 
 class Character:
     def __init__(self, name, level=5):
@@ -35,6 +36,7 @@ class Boss(Character):
 
 boss = None
 
+# Creates a boss character which is the equivalent of 6 times the player's level'
 def boss_gen(x):
     global boss
     if x == 1:
@@ -53,7 +55,7 @@ enemy_list = []
 def enemy_gen():
     for x in range(5):
         name_list = ['red', 'green', 'yellow', 'blue', 'purple']
-        enemyx = Enemy(f'{name_list[x].capitalize()} enemy', (random.randint((hero.level - 4), (hero.level + 4))))
+        enemyx = Enemy((name_list[x] + ' enemy').title(), (random.randint((hero.level - 4), (hero.level + 4))))
         enemy_list.append(enemyx)
 
 # Method for fighting with regular enemies 
@@ -74,11 +76,11 @@ def fight(self, other):
 def boss_fight(self, other):
     if self.level >= other.level:
         self.level += other.level
-        print(f'{self.name} defeated {other.name.capitalize()}! You\'re now level {self.level}.')
+        print(f'{self.name} defeated the {other.name}! You\'re now level {self.level}.')
         del other
         enemy_list.clear()
     else:
-        print(f'{self.name} attacks {other.name.capitalize()} and loses...')
+        print(f'{self.name} attacks the {other.name} and loses...')
         sys.exit("Thank you for playing. Better luck next time!")
 
 # Area where the enemy list is printed and the player chooses who to fight.
@@ -89,6 +91,7 @@ def battle_area():
         for index, enemy in enumerate(enemy_list):
             print(f'{index + 1}.\n {str(enemy)}\n')
         battle_choice = int(input(f'Choose your opponent(1-{len(enemy_list)}): '))
+        os.system('cls' if os.name == 'nt' else 'clear')
         fight(hero, enemy_list[battle_choice - 1])
     print(f'You beat the enemies, and a {boss.name} appears...\n{str(boss)}')
     boss_fight(hero, boss)
@@ -103,11 +106,14 @@ def game():
         while enemy_list != []:
             action = input('Please enter one of the following commands (battle, stats or scores): ')
             if action == 'battle':
+                os.system('cls' if os.name == 'nt' else 'clear')
                 battle_area()
             elif action == 'stats':
+                os.system('cls' if os.name == 'nt' else 'clear')
                 print('--- YOUR STATS ---')
                 print(hero)
             elif action == 'scores':
+                os.system('cls' if os.name == 'nt' else 'clear')
                 with open ('docs/scores.csv') as file:
                     reader = csv.reader(file)
                     print('--- TOP 5 SCORES ---')
@@ -120,6 +126,7 @@ def game():
                         else:
                             break
             else:
+                os.system('cls' if os.name == 'nt' else 'clear')
                 action = 'Please enter one of the following (battle, stats or scores): '
     time_result = round((time.time()) - time1)
     # Writes score to score list CSV
