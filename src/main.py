@@ -114,7 +114,7 @@ def game():
                 print(hero)
             elif action == 'scores':
                 os.system('cls' if os.name == 'nt' else 'clear')
-                with open ('docs/scores.csv') as file:
+                with open ('../docs/scores.csv') as file:
                     reader = csv.reader(file)
                     print('--- TOP 5 SCORES ---')
                     reader.__next__()
@@ -130,17 +130,17 @@ def game():
                 action = 'Please enter one of the following (battle, stats or scores): '
     time_result = round((time.time()) - time1)
     # Writes score to score list CSV
-    with open('docs/scores.csv', 'a', newline='\n') as file:
+    with open('../docs/scores.csv', 'a', newline='\n') as file:
         writer = csv.writer(file)
         writer.writerow([hero.name,time_result])
     print(f'Congratulations, {hero.name}! You won in {time_result} seconds!')
     # Sort scores list CSV
-    with open('docs/scores.csv') as file:
+    with open('../docs/scores.csv') as file:
         reader = csv.reader(file)
         reader.__next__() # Skip the first row (the column names)
         data = sorted(csv.reader(file), key = lambda x: x[1])
     # Writes the sorted scores to the list CSV
-    with open('docs/scores.csv', 'w', newline='\n') as file:
+    with open('../docs/scores.csv', 'w', newline='\n') as file:
         writer = csv.writer(file)
         writer.writerow(['name','score'])
         writer.writerows(data)
