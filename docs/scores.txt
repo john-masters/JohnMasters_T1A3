@@ -1,8 +1,0 @@
-John: 4
-Yoyo: 4
-Bobo: 5
-Nono: 6
-Popo: 7
-John: 4
-Frankie: 7
-Pop: 1
