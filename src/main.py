@@ -69,9 +69,9 @@ def fight(self, other):
     if self.level >= other.level:
         self.level += other.level
         enemy_list.remove(other)
-        print(f'{self.name} defeated {other.name.capitalize()}! You\'re now level {self.level}.')
+        print(f'{self.name} defeated the {other.name.capitalize()}! You\'re now level {self.level}.')
     else:
-        print(f'{self.name} attacks {other.name.capitalize()} and loses...')
+        print(f'{self.name} attacks the {other.name.capitalize()} and loses...')
         sys.exit("Thank you for playing. Better luck next time!")
 
 # Method for fighting the bosses
@@ -83,6 +83,7 @@ def boss_fight(self, other):
         print(f'{self.name} defeated the {other.name}! You\'re now level {self.level}.')
         del other
         enemy_list.clear()
+        time.sleep(3)
     else:
         print(f'{self.name} attacks the {other.name} and loses...')
         sys.exit("Thank you for playing. Better luck next time!")
@@ -95,44 +96,72 @@ def battle_area():
         for index, enemy in enumerate(enemy_list):
             print(f'{index + 1}.\n {str(enemy)}\n')
         print('--------------------')
-        battle_choice = int(input(f'Choose your opponent(1-{len(enemy_list)}): '))
-        terminal_clear()
-        fight(hero, enemy_list[battle_choice - 1])
+        battle_choice = input(f'Choose your opponent(1-{len(enemy_list)}): ')
+        if battle_choice == 'quit':
+            terminal_clear()
+            sys.exit("Thank you for playing. See you next time!")
+        else:
+            terminal_clear()
+            try:
+                fight(hero, enemy_list[int(battle_choice) - 1])
+            except (ValueError, IndexError):
+                print(f'Enter a number between 1-{len(enemy_list)}\n')
+                print('--- BATTLE ARENA ---')
     print(f'You beat the enemies, and a {boss.name} appears...\n{str(boss)}')
-    input("There's nowhere to run. Hit enter to fight: ")
+    time.sleep(3)
     terminal_clear()
     boss_fight(hero, boss)
 
 # The main game function. The player chooses between battling, checking their stats, or checking the high scores
 def game():
+    terminal_clear()
     time1 = time.time()
-    print(f'Welcome to the game, {hero.name}! You\'re level {hero.level}. Good luck!')
+    print(f'Welcome to the game, {hero.name}! You\'re level {hero.level}. Good luck!\n(Enter \'quit\' to exit the game)')
+    time.sleep(3)
+    terminal_clear()
     for i in range(3):
         boss_gen(i + 1)
         enemy_gen()
         while enemy_list != []:
-            action = input('Please enter one of the following commands (battle, stats or scores): ')
-            if action == 'battle':
+            action = input(
+'''--- COMMANDS ---
+1 - battle
+2 - stats
+3 - scores
+----------------
+Please enter a command (1 - 3): 
+''')
+            if action == 'quit':
                 terminal_clear()
-                battle_area()
-            elif action == 'stats':
-                terminal_clear()
-                print('--- YOUR STATS ---')
-                print(hero)
-                print('------------------')
-            elif action == 'scores':
-                terminal_clear()
-                with open ('../docs/scores.csv') as file:
-                    reader = csv.reader(file)
-                    print('--- TOP 5 SCORES ---')
-                    reader.__next__()
-                    for key, row in enumerate(reader):
-                        if key != 5:
-                            print(f'{key + 1}. {row[0]} beat the game in {row[1]} seconds')
-                    print('--------------------')
+                sys.exit("Thank you for playing. See you next time!")
             else:
-                terminal_clear()
-                action = 'Please enter one of the following (battle, stats or scores): '
+                try:
+                    action = int(action)
+                except ValueError:
+                    terminal_clear()
+                    print('Please enter a number from 1-3, or \'quit\' to exit the game\n')
+                if action == 1:
+                    terminal_clear()
+                    battle_area()
+                elif action == 2:
+                    terminal_clear()
+                    print('--- YOUR STATS ---')
+                    print(hero)
+                    print('------------------')
+                    time.sleep(3)
+                    terminal_clear()
+                elif action == 3:
+                    terminal_clear()
+                    with open ('../docs/scores.csv') as file:
+                        reader = csv.reader(file)
+                        print('--- TOP 5 SCORES ---')
+                        reader.__next__()
+                        for key, row in enumerate(reader):
+                            if key != 5:
+                                print(f'{key + 1}. {row[0]} beat the game in {row[1]} seconds')
+                        print('--------------------')
+                        time.sleep(3)
+                        terminal_clear()
     time_result = round((time.time()) - time1)
     # Writes score to score list CSV
     with open('../docs/scores.csv', 'a', newline='\n') as file:
