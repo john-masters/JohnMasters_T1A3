@@ -6,7 +6,7 @@
 
 - Devil ascii art available [here](https://www.asciiart.eu/electronics/robots)
 
-- Presentation available on YouTube [here](https://www.youtube.com)
+- Presentation available on YouTube [here](https://youtu.be/3Ne2Uf5Pjzs)
 
 ## R4 - Link to source control repository
 
