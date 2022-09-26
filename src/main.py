@@ -9,7 +9,7 @@ class QuitError(Exception):
 
 class Character:
     def __init__(self, name, level=5):
-        self.name = name
+        self.name = name.title()
         self.level = level
 
     def __str__(self):
@@ -46,7 +46,7 @@ def boss_gen(x):
         level = "silver"
     elif x == 3:
         level = "gold"
-    boss = Boss((level + " devil").title(), hero.level * 6)
+    boss = Boss((level + " devil"), hero.level * 6)
 
 def terminal_clear():
     os.system("cls" if os.name == "nt" else "clear")
@@ -61,7 +61,7 @@ def get_input(prompt):
 def enemy_gen():
     for x in range(5):
         name_list = ["red", "green", "yellow", "blue", "purple"]
-        enemy_name = (name_list[x] + " enemy").title()
+        enemy_name = (name_list[x] + " enemy")
         enemyx = Enemy(enemy_name, (random.randint((hero.level - 4), (hero.level + 4))))
         enemy_list.append(enemyx)
 
@@ -72,9 +72,9 @@ def fight(self, other):
     if self.level >= other.level:
         self.level += other.level
         enemy_list.remove(other)
-        print(f"{self.name} defeated the {other.name.capitalize()}! You're now level {self.level}.")
+        print(f"{self.name} defeated the {other.name}! You're now level {self.level}.")
     else:
-        print(f"{self.name} attacks the {other.name.capitalize()} and loses...")
+        print(f"{self.name} attacks the {other.name} and loses...")
         sys.exit("Thank you for playing. Better luck next time!")
 
 # Method for fighting the bosses
@@ -206,5 +206,5 @@ if __name__ == "__main__":
     terminal_clear()
     boss = None
     enemy_list = []
-    hero = Character(input("Please enter your name: ").capitalize())
+    hero = Character(input("Please enter your name: "))
     game()
