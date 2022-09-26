@@ -1,16 +1,22 @@
-# R3 - Sources
+# T1A3 - Terminal Application
+
+## R3 - Sources
+
 - Trello board available [here](https://trello.com/invite/b/0atoXcqa/6fe6d7da1695821e87bcea4adfca18d1/t1a3-fight-game)
+
 - Devil ascii art available [here](https://www.asciiart.eu/electronics/robots)
 
-# R4 - Link to source control repository
+## R4 - Link to source control repository
+
 - [Github](https://github.com/john-masters/JohnMasters_T1A3)
 
-# R5 - Style guide or styling conventions
+## R5 - Style guide or styling conventions
+
 - The style guide I will be adhering to is PEP8.
 
-# R6 - Features
+## R6 - Features
 
-### 1. Can fight opponents in battle area and increase your level.
+### 1. Can fight opponents in battle area and increase your level
 
 - In the battle area, there will be 5 unique opponents with randomised levels relative to the player's level.
 
@@ -20,7 +26,7 @@
 
 - If you lose a fight, then the game ends.
 
-### 2. Three different bosses after you defeat all the opponents in the battle area.
+### 2. Three different bosses after you defeat all the opponents in the battle area
 
 - Once the 5 opponents are finished, there will be a boss. Which the player will fight. If you lose the battle, the game ends.
 
@@ -33,9 +39,10 @@
 - When the game starts, a timer begins, and the timer ends when the last boss is defeated.
 - The player's score is added to an external file. The score list can be accessed in the main navigation area.
 
-# R7 - Implementation plan
+## R7 - Implementation plan
 
 Original plan:
+
 - Create class for player character
 - Create class for opponents/bosses
 - Create fight method
@@ -45,9 +52,10 @@ Original plan:
 
 I used Trello for planning and tracking my implementation plan. You can view the board [here](https://trello.com/invite/b/0atoXcqa/6fe6d7da1695821e87bcea4adfca18d1/t1a3-fight-game).
 
-# R8 - Help documentation
+## R8 - Help documentation
 
 ### Requirements
+
 - Python 3
 
 ### Setup instructions
@@ -64,13 +72,13 @@ git clone https://github.com/john-masters/JohnMasters_T1A3.git
 source .venv/bin/activate
 ```
 
-3.  Once you have done this, enter the following command to enter into the folder containing the source code:
+3. Once you have done this, enter the following command to enter into the folder containing the source code:
 
 ```sh
 cd src
 ```
 
-4.  Next enter the following command in your terminal to start the game. This process will start the game, but it will first check to make sure you have Python 3 installed on your computer:
+4. Next enter the following command in your terminal to start the game. This process will start the game, but it will first check to make sure you have Python 3 installed on your computer:
 
 ```sh
 ./game.sh
