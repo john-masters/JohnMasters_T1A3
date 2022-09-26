@@ -68,7 +68,7 @@ I used Trello for planning and tracking my implementation plan. You can view the
 git clone https://github.com/john-masters/JohnMasters_T1A3.git
 ```
 
-2. Once you have a copy of my terminal app, open to the main folder 'JohnMasters_T1A3'. Once you're there, enter into the virtual environment to the run the application. You can do that by entering the following command in your terminal. You will know it's working as '(.ven)' will appear on the left side in your terminal line.
+2. Once you have a copy of my terminal app, open to the main/root folder 'JohnMasters_T1A3'. Once you're there, enter into the virtual environment to the run the application. You can do that by entering the following command in your terminal. You will know it's working as '(.venv)' will appear on the left side in your terminal line.
 
 ```sh
 source .venv/bin/activate
