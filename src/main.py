@@ -37,8 +37,6 @@ class Boss(Character):
 \nName: {self.name}\nLevel: {self.level}
         """
 
-boss = None
-
 # Creates a boss character which is the equivalent of 6 times the player's level"
 def boss_gen(x):
     global boss
@@ -58,11 +56,6 @@ def get_input(prompt):
     if input_value == "quit":
         raise QuitError
     return input_value
-
-terminal_clear()
-hero = Character(input("Please enter your name: ").capitalize())
-
-enemy_list = []
 
 # Create a list of 5 enemies, with levels around player's level and adds them to list for reference
 def enemy_gen():
@@ -209,4 +202,9 @@ Please enter a number from 1-3, or 'quit' to exit the game\n"""
         writer.writerow(["name","score"])
         writer.writerows(data)
 
-game()
+if __name__ == "__main__":
+    terminal_clear()
+    boss = None
+    enemy_list = []
+    hero = Character(input("Please enter your name: ").capitalize())
+    game()
