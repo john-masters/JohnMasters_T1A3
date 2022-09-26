@@ -6,7 +6,7 @@ then
     then
         python3 main.py
     else
-        echo "This program runs on Python 3. Please update your Python version." >&2
+        echo "Please update your Python application the version 3." >&2
     fi 
 else
     echo "Error: 
