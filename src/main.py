@@ -4,6 +4,9 @@ import time
 import csv
 import os
 
+class QuitError(Exception):
+    pass
+
 class Character:
     def __init__(self, name, level=5):
         self.name = name
@@ -50,8 +53,14 @@ def boss_gen(x):
 def terminal_clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+def get_input(prompt):
+    input_value = input(prompt)
+    if input_value == 'quit':
+        raise QuitError
+    return input_value
+
 terminal_clear()
-hero = Character(input("Please enter your name: ").capitalize())
+hero = Character(input('Please enter your name: ').capitalize())
 
 enemy_list = []
 
@@ -72,7 +81,7 @@ def fight(self, other):
         print(f'{self.name} defeated the {other.name.capitalize()}! You\'re now level {self.level}.')
     else:
         print(f'{self.name} attacks the {other.name.capitalize()} and loses...')
-        sys.exit("Thank you for playing. Better luck next time!")
+        sys.exit('Thank you for playing. Better luck next time!')
 
 # Method for fighting the bosses
 # If you win, the enemy level is added to yours and the boss is deleted, and the enemy list is cleared.
@@ -83,10 +92,9 @@ def boss_fight(self, other):
         print(f'{self.name} defeated the {other.name}! You\'re now level {self.level}.')
         del other
         enemy_list.clear()
-        time.sleep(3)
     else:
         print(f'{self.name} attacks the {other.name} and loses...')
-        sys.exit("Thank you for playing. Better luck next time!")
+        sys.exit('Thank you for playing. Better luck next time!')
 
 # Area where the enemy list is printed and the player chooses who to fight.
 # Once the enemies are defeated, the player will fight the boss
@@ -96,16 +104,17 @@ def battle_area():
         for index, enemy in enumerate(enemy_list):
             print(f'{index + 1}.\n {str(enemy)}\n')
         print('--------------------')
-        battle_choice = input(f'Choose your opponent(1-{len(enemy_list)}): ')
-        if battle_choice == 'quit':
+        try:
+            battle_choice = get_input(f'Choose your opponent(1-{len(enemy_list)}): ')
+        except QuitError:
             terminal_clear()
-            sys.exit("Thank you for playing. See you next time!")
+            sys.exit('Thank you for playing. See you next time!')
         else:
             terminal_clear()
             try:
                 fight(hero, enemy_list[int(battle_choice) - 1])
             except (ValueError, IndexError):
-                print(f'Enter a number between 1-{len(enemy_list)}\n')
+                print(f'Invalid input: Enter a number between 1-{len(enemy_list)}\n')
                 print('--- BATTLE ARENA ---')
     print(f'You beat the enemies, and a {boss.name} appears...\n{str(boss)}')
     time.sleep(3)
@@ -123,7 +132,9 @@ def game():
         boss_gen(i + 1)
         enemy_gen()
         while enemy_list != []:
-            action = input(
+            # terminal_clear()
+            try:
+                action = get_input(
 '''--- COMMANDS ---
 1 - battle
 2 - stats
@@ -131,37 +142,42 @@ def game():
 ----------------
 Please enter a command (1 - 3): 
 ''')
-            if action == 'quit':
+            except QuitError:
                 terminal_clear()
-                sys.exit("Thank you for playing. See you next time!")
+                sys.exit('Thank you for playing. See you next time!')
             else:
                 try:
                     action = int(action)
                 except ValueError:
                     terminal_clear()
-                    print('Please enter a number from 1-3, or \'quit\' to exit the game\n')
-                if action == 1:
-                    terminal_clear()
-                    battle_area()
-                elif action == 2:
-                    terminal_clear()
-                    print('--- YOUR STATS ---')
-                    print(hero)
-                    print('------------------')
-                    time.sleep(3)
-                    terminal_clear()
-                elif action == 3:
-                    terminal_clear()
-                    with open ('../docs/scores.csv') as file:
-                        reader = csv.reader(file)
-                        print('--- TOP 5 SCORES ---')
-                        reader.__next__()
-                        for key, row in enumerate(reader):
-                            if key != 5:
-                                print(f'{key + 1}. {row[0]} beat the game in {row[1]} seconds')
-                        print('--------------------')
-                        time.sleep(3)
+                    print('Invalid input: Please enter a number from 1-3, or \'quit\' to exit the game\n')
+                else:
+                    if action in range(1, 4):
+                        if action == 1:
+                            terminal_clear()
+                            battle_area()
+                        elif action == 2:
+                            terminal_clear()
+                            print('--- YOUR STATS ---')
+                            print(hero)
+                            print('------------------')
+                            time.sleep(3)
+                            terminal_clear()
+                        elif action == 3:
+                            terminal_clear()
+                            with open ('../docs/scores.csv') as file:
+                                reader = csv.reader(file)
+                                print('--- TOP 5 SCORES ---')
+                                reader.__next__()
+                                for key, row in enumerate(reader):
+                                    if key != 5:
+                                        print(f'{key + 1}. {row[0]} beat the game in {row[1]} seconds')
+                                print('--------------------')
+                                time.sleep(3)
+                                terminal_clear()
+                    else:
                         terminal_clear()
+                        print('Invalid input: Please enter a number from 1-3, or \'quit\' to exit the game\n')
     time_result = round((time.time()) - time1)
     # Writes score to score list CSV
     with open('../docs/scores.csv', 'a', newline='\n') as file:
